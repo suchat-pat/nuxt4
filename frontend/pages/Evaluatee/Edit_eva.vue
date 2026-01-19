@@ -29,7 +29,7 @@
                                     <v-text-field label="ยืนยันรหัสผ่าน" type="password" v-model="confrimPassword" :error-messages="error.confrimPassword"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-select label="เลือกประเภทสมาชิก" :items="['ฝ่ายบุคลากร','กรรมการประเมิน','ผู้รับการประเมินผล']" v-model="form.role" :error-messages="error.role"></v-select>
+                                    <v-select label="เลือกปรเภทสมาชิก" :items="['ฝ่ายบุคลากร','กรรมการประเมิน','ผู้รับการประเมินผล']" v-model="form.role" :error-messages="error.role"></v-select>
                                 </v-col>
                                 <v-col cols="12" class="text-center">
                                     <v-btn type="submit" color="#7d0c14">สมัคร</v-btn> &nbsp;&nbsp;&nbsp;&nbsp; <v-btn type="reset" color="#7d0c14">ยกเลิก</v-btn>
