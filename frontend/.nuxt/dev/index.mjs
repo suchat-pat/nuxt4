@@ -1462,15 +1462,15 @@ _1xyvuM2CQDhMlDxE8qY1t3Wi66ocgNUNDNce4pREOrU
 const assets = {
   "/index.mjs": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"143f1-S5qM77CtcMQgNOJXIwDl/HP7ZKo\"",
-    "mtime": "2026-01-19T08:32:19.387Z",
-    "size": 82929,
+    "etag": "\"14f61-58XqzTv27BWlyDQkePBSCYlWiIs\"",
+    "mtime": "2026-01-19T08:58:42.645Z",
+    "size": 85857,
     "path": "index.mjs"
   },
   "/index.mjs.map": {
     "type": "application/json",
     "etag": "\"50b54-BKCMaNDlT3OPCbyut/Hn7px/gDI\"",
-    "mtime": "2026-01-19T08:32:19.389Z",
+    "mtime": "2026-01-19T08:36:17.939Z",
     "size": 330580,
     "path": "index.mjs.map"
   }
