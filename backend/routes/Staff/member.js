@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const db = require('../../db')
 const bc = require('bcryptjs')
+const {verifyToken,requireRole} = require('../../middleware/authMiddleware')
 
 // API สำหรับ Get ข้อมูล
-router.get('/eva',async (req,res) => {
+router.get('/eva',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try{
         const [rows] = await db.query(`select id_member,first_name,last_name,email,username,role from tb_member where role='ผู้รับการประเมินผล' order by id_member desc`)
         res.json(rows)
