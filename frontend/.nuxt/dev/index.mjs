@@ -1463,14 +1463,14 @@ const assets = {
   "/index.mjs": {
     "type": "text/javascript; charset=utf-8",
     "etag": "\"143f1-S5qM77CtcMQgNOJXIwDl/HP7ZKo\"",
-    "mtime": "2026-01-19T07:36:21.357Z",
+    "mtime": "2026-01-19T08:32:19.387Z",
     "size": 82929,
     "path": "index.mjs"
   },
   "/index.mjs.map": {
     "type": "application/json",
     "etag": "\"50b54-BKCMaNDlT3OPCbyut/Hn7px/gDI\"",
-    "mtime": "2026-01-19T07:36:21.357Z",
+    "mtime": "2026-01-19T08:32:19.389Z",
     "size": 330580,
     "path": "index.mjs.map"
   }
