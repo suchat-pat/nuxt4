@@ -47,7 +47,7 @@ services:
     networks: ["app-network"]
 
   mysql:
-    image: mysql
+    image: mysql:8.0
     container_name: MYSQL_Container
     ports: ["3307:3306"]
     restart: always
