@@ -40,7 +40,7 @@ const logout = async () => {
 
 const roles = [
     //staff
-    {title:'หน้าหลัก',to:'/Staff/',role:'ฝ่ายบุคลากร'},
+    {title:'หน้าหลัก',to:'/Staff/index',role:'ฝ่ายบุคลากร'},
 
     //commit
     {title:'รายชื่อผู้รับการประเมิน',to:'/Committee/',role:'กรรมการประเมิน'},

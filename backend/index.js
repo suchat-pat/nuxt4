@@ -17,9 +17,5 @@ app.use('/uploads',express.static(path.join('uploads')))
 const auth = require('./routes/auth')
 app.use('/api/auth',auth)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> e49b202c9227addf9b132a96cd9c56e25fed52ef
 app.use( (req,res) => res.status(404).json({ message:'ระบบปิดปรับปรุง!' }) )
 app.listen(3001 , () => console.log('Server Running On Port 3001'))
