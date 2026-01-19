@@ -1,6 +1,5 @@
 <template>
-    555555
-    <nuxt-link to="/regis">สมัคร</nuxt-link>
+    <v-row></v-row>
 </template>
 
 <script setup lang="ts">
@@ -9,4 +8,4 @@
 
 <style scoped>
 
-</style>
+</style> 
