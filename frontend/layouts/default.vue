@@ -54,16 +54,16 @@ const navitem = computed(() =>
 
 const fetchUser = async () =>{
     const token = localStorage.getItem('token')
-    if(!token){
-        return await navigateTo('/',{replace:true})
-    }
+    // if(!token){
+    //     return await navigateTo('/',{replace:true})
+    // }
     try{
         const res = await axios.get(`${api}/profile`,{headers:{Authorization:`Bearer ${token}`}})
         user.value = res.data
     }catch(err){
         console.error("Error Get User!",err)
-        localStorage.removeItem('token')
-        await navigateTo('/',{replace:true})
+        // localStorage.removeItem('token')
+        // await navigateTo('/',{replace:true})
     }
 }
 

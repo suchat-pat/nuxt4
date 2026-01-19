@@ -1,11 +1,10 @@
 <template>
-    <v-container fluid class="fill-height">
-        <v-row justify="center" align="center">
-            <v-col cols="12" md="8" lg="6">
+    <v-container >
+        <v-row >
+            <v-col cols="12">
                 <v-card>
-                    <v-sheet class="pa-4" color="#7d0c14">
-                        <h1 class="text-center text-h5 font-weight-bold">สมัครสมาชิก</h1>
-                        <p class="text-sm text-center">ระบบประเมินบุคลากรวิทยาลัยเทคนิคน่าน</p>
+                    <v-sheet class="pa-4" color="#404040">
+                        <h1 class="text-center text-h5 font-weight-bold">แก้ไขข้อมูลส่วนตัว</h1>
                     </v-sheet>
                     <v-card-text>
                         <v-form @submit.prevent="saveMember">
@@ -29,11 +28,10 @@
                                     <v-text-field label="ยืนยันรหัสผ่าน" type="password" v-model="confrimPassword" :error-messages="error.confrimPassword"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-select label="เลือกปรเภทสมาชิก" :items="['ฝ่ายบุคลากร','กรรมการประเมิน','ผู้รับการประเมินผล']" v-model="form.role" :error-messages="error.role"></v-select>
+                                    <v-alert>{{ form.role }}</v-alert>
                                 </v-col>
                                 <v-col cols="12" class="text-center">
-                                    <v-btn type="submit" color="#7d0c14">สมัคร</v-btn> &nbsp;&nbsp;&nbsp;&nbsp; <v-btn type="reset" color="#7d0c14">ยกเลิก</v-btn>
-                                    <p class="mt-2 text-sm text-center">มีบัญชีอยู่แล้ว? <nuxt-link to="/" class="text-maroon">เข้าสู่ระบบ</nuxt-link></p>
+                                    <v-btn type="submit" color="success">แก้ไข</v-btn> &nbsp;&nbsp;&nbsp;&nbsp; <v-btn type="reset" color="error">ยกเลิก</v-btn>
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -46,10 +44,7 @@
 
 <script setup lang="ts">
 import axios from 'axios'
-import {api} from '../API/api'
-definePageMeta({
-    layout:false
-})
+import {eva} from '../API/api'
 
 const form = ref({
     first_name:'',
@@ -61,6 +56,7 @@ const form = ref({
 })
 const confrimPassword = ref('')
 const error = ref<Record<string,string>>({})
+const token = process.client ? localStorage.getItem('token') : null
 
 const emailReget = /^[^\s]+@[^\s]+\.[^\s]{2,}$/i
 function validateForm(){
@@ -72,10 +68,11 @@ function validateForm(){
     else if(!emailReget.test(f.email.trim()))error.value.email='รูปแบบอีเมลไม่ถูกต้อง'
     if(!f.username.trim())error.value.username='กรุณากรอกชื่อผู้ใช้'
     else if(f.username.trim().length < 4)error.value.username='ต้องมีอย่างน้อย 4 ตัวอักษร'
-    if(!f.password.trim())error.value.password='กรุณากรอกรหัสผ่าน'
-    else if(f.password.trim().length < 6)error.value.password='ต้องมีอย่างน้อย 6 ตัวอักษร'
-    if(!confrimPassword.value.trim())error.value.confrimPassword='กรุณายืนยันรหัสผ่าน'
-    else if(confrimPassword.value.trim() != f.password.trim())error.value.confrimPassword='รหัสผ่านไม่ตรงกัน'
+    if(f.password && f.password.trim()){
+        if(f.password.trim().length < 6)error.value.password='ต้องมีอย่างน้อย 6 ตัวอักษร'
+        if(!confrimPassword.value.trim())error.value.confrimPassword='กรุณายืนยันรหัสผ่าน'
+        else if(confrimPassword.value.trim() != f.password.trim())error.value.confrimPassword='รหัสผ่านไม่ตรงกัน'
+    }
     if(!f.role.trim())error.value.role='กรุณาเลือกประเภทสมาชิก'
     return Object.keys(error.value).length === 0
 }
@@ -83,14 +80,24 @@ function validateForm(){
 const saveMember = async () =>{
     if(!validateForm())return
     try{
-        await axios.post(`${api}/auth/regis`,form.value)
-        alert('สมัครสำเร็จ')
+        await axios.put(`${eva}/edit_eva`,form.value,{headers:{Authorization:`Bearer ${token}`}})
+        alert('แก้ไขสำเร็จ')
+        localStorage.removeItem('token')
         navigateTo('/')
     }catch(err){
         console.error('Error Regis Member!!',err)
     }
 }
+const fetchUser = async () =>{
+    try{
+        const res = await axios.get(`${eva}/edit_eva`,{headers:{Authorization:`Bearer ${token}`}})
+        form.value = res.data
+    }catch(err){
+        console.error('Error Get Member!!',err)
+    }
+}
 
+onMounted(fetchUser)
 </script>
 
 <style scoped>
