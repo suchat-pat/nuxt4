@@ -80,4 +80,4 @@ router.delete('/:id_member',verifyToken,requireRole('ฝ่ายบุคลา
     }
 })
 
-module.express = router()
+module.exports = router

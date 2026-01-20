@@ -2,7 +2,7 @@
     <v-container fluid class="py-10">
                 <v-card>
                     <v-sheet class="pa-4" color="">
-                        <h1 class="text-center text-h5 font-weight-bold">จัดการผู้รับการประเมินผล</h1>
+                        <h1 class="text-center text-h5 font-weight-bold">จัดการกรรมการประเมิน</h1>
                     </v-sheet>
                     <v-card-text>
                         <v-form @submit.prevent="saveMember">
@@ -23,7 +23,7 @@
                                     <v-text-field label="รหัสผ่าน" type="password" v-model="form.password" :error-messages="error.password"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-select label="เลือกประเภทสมาชิก" :items="['ผู้รับการประเมินผล']" v-model="form.role" :error-messages="error.role"></v-select>
+                                    <v-select label="เลือกประเภทสมาชิก" :items="['กรรมการประเมิน']" v-model="form.role" :error-messages="error.role"></v-select>
                                 </v-col>
                                 <v-row>
                                     <v-col cols="12" md="6">
@@ -124,7 +124,7 @@ function validateForm(){
 
 const fetch = async () => {
     try{
-        const res = await axios.get(`${staff}/member/eva`,{headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.get(`${staff}/member/commit`,{headers: {Authorization: `Bearer ${token}`}})
         result.value = res.data
     }catch(err){
         console.error('Error Fetching',err)

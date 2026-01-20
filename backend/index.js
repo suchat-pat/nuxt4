@@ -17,5 +17,22 @@ app.use('/uploads',express.static(path.join('uploads')))
 const auth = require('./routes/auth')
 app.use('/api/auth',auth)
 
+const profile = require('./routes/profile')
+app.use('/api/profile',profile)
+
+
+const member = require('./routes/Staff/member')
+app.use('/api/Staff/member',member)
+
+const topic = require('./routes/Staff/topic')
+app.use('/api/Staff/topic',topic)
+
+const indicate = require('./routes/Staff/indicate')
+app.use('/api/Staff/indicate',indicate)
+app.use('/api/Staff/topic',topic)
+
+const round_eva = require('./routes/Staff/round_eva')
+app.use('/api/Staff/round_eva',round_eva)
+
 app.use( (req,res) => res.status(404).json({ message:'ระบบปิดปรับปรุง!' }) )
 app.listen(3001 , () => console.log('Server Running On Port 3001'))
