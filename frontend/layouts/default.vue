@@ -6,6 +6,7 @@
             <p>ผู้ใช้งาน : {{ user.first_name }} {{ user.last_name }} <br> {{ user.role }}</p>&nbsp;&nbsp;
             <v-btn @click="logout" class="bg-white">ออกจากระบบ</v-btn>&nbsp;&nbsp;
         </v-app-bar>
+        <ClientOnly>
         <v-navigation-drawer color="#404040" v-model="drawer" app :temporary="isMobile" :permanent="!isMobile">
             <v-list>
                 <v-list-item v-for="item in navitem" :key="item.title" :to="item.to">
@@ -15,6 +16,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
+        </ClientOnly>
         <v-main>
             <v-container fluid>
                 <NuxtPage/>
@@ -29,7 +31,7 @@ import { useDisplay } from 'vuetify';
 const {mdAndDown} = useDisplay()
 const isMobile = computed(() => mdAndDown.value)
 const drawer = ref(false)
-const user = ref({})
+const user = ref<any>({})
 import {api} from '../API/api'
 
 const logout = async () => {
@@ -54,6 +56,7 @@ const roles = [
     {title:'หน้าหลัก',to:'/Evaluatee/',role:'ผู้รับการประเมินผล'},
     {title:'แก้ไขข้อมูลส่วนตัว',to:'/Evaluatee/Edit_eva',role:'ผู้รับการประเมินผล'},
     {title:'แบบประเมิน',to:'/Evaluatee/Staff',role:'ผู้รับการประเมินผล'},
+    {title:'ผลการประเมิน',to:'/Evaluatee/Check_score',role:'ผู้รับการประเมินผล'},
 ]
 const navitem = computed(() =>
     roles.filter((item) => item.role.includes(user.value.role))

@@ -36,12 +36,12 @@ router.get('/indicate',verifyToken,requireRole('ผู้รับการป�
     }
 })
 
-router.get('/save',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
+router.post('/save',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
     try{
         const  id_member = req.user.id_member
-        const scores = JSON.parse(req.scores.body)
+        const scores = JSON.parse(req.body.scores)
         const fileMap = {}
-        await Promise.all(Object.entrise(req.files).map(async ([key,file]) =>{
+        await Promise.all(Object.entries(req.files).map(async ([key,file]) =>{
             const filename = Date.now()+Math.random().toString(36).slice(2)+path.extname(file.name)
             await file.mv(path.join(uploadDir,filename))
             fileMap[key] = filename
@@ -51,17 +51,22 @@ router.get('/save',verifyToken,requireRole('ผู้รับการประ
             [id_member]
         )
         const id_eva = evaRow.id_eva
-        for(scores of item){
+        for(const item of scores){
             const filename = fileMap[item.file_key]
             await db.query(
                 `insert into tb_evadetail (id_eva,id_indicate,status_eva,score_member,detail_eva,file_eva) values(?,?,?,?,?,?)`,
-                [id_eva,item.id_indicate,1,item.score,/item.detail_eva],
+                [id_eva,item.id_indicate,1,item.score,item.detail_eva,filename],
             )
         }
-        res.json(result)
+        const [[sumRow]] = await db.query(
+            `select coalesce(sum(score_member*(select i.point_indicate from tb_indicate i where i.id_indicate=d.id_indicate)),0) as total
+            from tb_evadetail d where d.id_eva=?`,[id_eva]
+        )
+        await db.query(`update tb_eva set status_eva=?,total_eva=? where id_eva=? and id_member=?`,[2,sumRow.total,id_eva,id_member])
+        res.json({message:"Success POST!"})
     }catch(err){
-        console.error('Error PUT User',err)
-        res.status(500).json({message:'Error PUT User'})
+        console.error('Error POST Score',err)
+        res.status(500).json({message:'Error POST Score'})
     }
 })
 
