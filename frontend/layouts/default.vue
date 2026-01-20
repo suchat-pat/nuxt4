@@ -46,7 +46,9 @@ const roles = [
     {title:'รายชื่อผู้รับการประเมิน',to:'/Committee/',role:'กรรมการประเมิน'},
 
     //eva
-    {title:'หน้าหลัก',to:'/Evaluatee/',role:'ผู้รับการประเมิน'},
+    {title:'หน้าหลัก',to:'/Evaluatee/',role:'ผู้รับการประเมินผล'},
+    {title:'แก้ไขข้อมูลส่วนตัว',to:'/Evaluatee/Edit_eva',role:'ผู้รับการประเมินผล'},
+    {title:'แบบประเมิน',to:'/Evaluatee/Staff',role:'ผู้รับการประเมินผล'},
 ]
 const navitem = computed(() =>
     roles.filter((item) => item.role.includes(user.value.role))
