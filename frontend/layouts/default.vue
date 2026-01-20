@@ -34,7 +34,7 @@ import {api} from '../API/api'
 
 const logout = async () => {
     if(!confirm('ต้องการออกจากระบบใช่หรือไม่'))return
-    localStorage.removeItemo('token')
+    localStorage.removeItem('token')
     navigateTo('/')
 }
 
@@ -46,6 +46,7 @@ const roles = [
     {title:'จัดการหัวข้อการประเมิน',to:'/Staff/Topic',role:'ฝ่ายบุคลากร'},
     {title:'จัดการตัวชี้วัด',to:'/Staff/Indicate',role:'ฝ่ายบุคลากร'},
     {title:'รอบการประเมิน',to:'/Staff/Round_eva',role:'ฝ่ายบุคลากร'},
+    {title:'จัดการแบบประเมิน',to:'/Staff/Eva',role:'ฝ่ายบุคลากร'},
 
     //commit
     {title:'รายชื่อผู้รับการประเมิน',to:'/Committee/',role:'กรรมการประเมิน'},
