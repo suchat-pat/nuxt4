@@ -33,7 +33,8 @@ router.get('/header/:id_eva',verifyToken,requireRole('ฝ่ายบุคล�
 router.get('/:id_eva',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try{
         const {id_eva} = req.params
-        const [brfore] = await db.query(`select id_member,concat(first_name,' ',last_name)as fullname_comit from tb_member where role='กรรมการประเมิน' order by id_member desc`)
+        const [brfore] = await db.query(`select id_member,concat(first_name,' 
+            ',last_name)as fullname_comit from tb_member where role='กรรมการประเมิน' order by id_member desc`)
         const [after] = await db.query(`select id_commit,tb_member.id_member,first_name,last_name,level_commit as role from tb_member , tb_commit , tb_eva where tb_eva.id_eva='${id_eva}' and tb_commit.id_eva=tb_eva.id_eva and tb_member.id_member=tb_commit.id_member order by id_member desc`)
         res.json({before,after})
     }catch(err){
