@@ -55,7 +55,7 @@ router.get('/save',verifyToken,requireRole('ผู้รับการประ
             const filename = fileMap[item.file_key]
             await db.query(
                 `insert into tb_evadetail (id_eva,id_indicate,status_eva,score_member,detail_eva,file_eva) values(?,?,?,?,?,?)`,
-                [id_eva,item.id_indicate,1,item.score,/item.detail_eva],
+                [id_eva,item.id_indicate,1,item.score,item.detail_eva],
             )
         }
         res.json(result)

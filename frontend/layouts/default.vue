@@ -6,15 +6,17 @@
             <p>ผู้ใช้งาน : {{ user.first_name }} {{ user.last_name }} <br> {{ user.role }}</p>&nbsp;&nbsp;
             <v-btn @click="logout" class="bg-white">ออกจากระบบ</v-btn>&nbsp;&nbsp;
         </v-app-bar>
-        <v-navigation-drawer color="#404040" v-model="drawer" app :temporary="isMobile" :permanent="!isMobile">
-            <v-list>
-                <v-list-item v-for="item in navitem" :key="item.title" :to="item.to">
-                    <v-list-item-title>
-                        {{ item.title }}
-                    </v-list-item-title>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
+        <ClientOnly>
+            <v-navigation-drawer color="#404040" v-model="drawer" app :temporary="isMobile" :permanent="!isMobile">
+                <v-list>
+                    <v-list-item v-for="item in navitem" :key="item.title" :to="item.to">
+                        <v-list-item-title>
+                            {{ item.title }}
+                        </v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+        </ClientOnly>
         <v-main>
             <v-container fluid>
                 <NuxtPage/>
@@ -40,13 +42,18 @@ const logout = async () => {
 
 const roles = [
     //staff
-    {title:'หน้าหลัก',to:'/Staff/index',role:'ฝ่ายบุคลากร'},
+    {title:'หน้าหลัก',to:'/Staff',role:'ฝ่ายบุคลากร'},
     {title:'จัดการผู้รับการประเมิน',to:'/Staff/ManageEva',role:'ฝ่ายบุคลากร'},
     {title:'จัดการกรรมการประเมิน',to:'/Staff/ManageCommit',role:'ฝ่ายบุคลากร'},
     {title:'จัดการหัวข้อการประเมิน',to:'/Staff/Topic',role:'ฝ่ายบุคลากร'},
     {title:'จัดการตัวชี้วัด',to:'/Staff/Indicate',role:'ฝ่ายบุคลากร'},
     {title:'รอบการประเมิน',to:'/Staff/Round_eva',role:'ฝ่ายบุคลากร'},
     {title:'จัดการแบบประเมิน',to:'/Staff/Eva',role:'ฝ่ายบุคลากร'},
+    {title:'ผลสรุปการประเมินของผู้รับประเมิน',to:'/Staff/Score_evaList',role:'ฝ่ายบุคลากร'},
+    {title:'ผลสรุปการประเมินของกรรมการประเมิน',to:'/Staff/Score_commitList',role:'ฝ่ายบุคลากร'},
+    {title:'สถานะการประเมินของผู้รับการประเมิน',to:'/Staff/StatusEva',role:'ฝ่ายบุคลากร'},
+    {title:'สถานะการประเมินของกรรมการประเมิน',to:'/Staff/StatusCommit',role:'ฝ่ายบุคลากร'},
+    {title:'คู่มือการประเมิน',to:'/Staff/Document',role:'ฝ่ายบุคลากร'},
 
     //commit
     {title:'รายชื่อผู้รับการประเมิน',to:'/Committee/',role:'กรรมการประเมิน'},

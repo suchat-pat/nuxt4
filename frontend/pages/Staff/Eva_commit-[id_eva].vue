@@ -39,7 +39,7 @@
                                     <td class="text-center border">{{ nameOf(items.id_member) }}</td>
                                     <td class="text-center border">{{ items.role }}</td>
                                     <td class="text-center border">
-                                        <v-btn class="text-white" color="error" size="small" @click="del(items.id_eva)">ลบ</v-btn>
+                                        <v-btn class="text-white" color="error" size="small" @click="del(items.id_commit)">ลบ</v-btn>
                                     </td>
                                 </tr>
                             </tbody>
@@ -81,8 +81,8 @@ const fetch = async () => {
                 {id_commit:null,id_member:'',role:''},
             ]
         }else{
-            List.value = useData.data.map(c => ({
-                id_commit:c.id_member,id_member:c.id_member,role:c.role
+            List.value = useData.map(c => ({
+                id_commit:c.id_commit,id_member:c.id_member,role:c.role
             }))
             while(List.value.length < 3){
                 List.value.push({id_commit:null,id_member:'',role:''})
@@ -105,7 +105,7 @@ const ROLE = (idx:number) => {
 
 const saveMember = async () =>{
     try{
-        await axios.post(`${staff}/commit/${id_eva}`,{headers: {Authorization:`Bearer ${token}`}})
+        await axios.post(`${staff}/commit/${id_eva}`,List.value,{headers: {Authorization:`Bearer ${token}`}})
         alert('ทำรายการสำเร็จ')
         await fetch()
     }catch(err){
