@@ -34,7 +34,7 @@ import {api} from '../API/api'
 
 const logout = async () => {
     if(!confirm('ต้องการออกจากระบบใช่หรือไม่'))return
-    localStorage.removeItemo('token')
+    localStorage.removeItem('token')
     navigateTo('/')
 }
 
