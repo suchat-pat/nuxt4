@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="12">
                 <v-form v-if="user.status_eva === 2 || user.status_eva === 3">
-                    <h1 class="text-h5 font-weight-bold">แบบประเมินตนเอง</h1>
+                    <h1 class="text-h5 font-weight-bold">คะแนนประเมินตนเอง</h1>
                     <v-card class="pa-2">
                         <p>ชื่อ - นามสกุล : {{ user.first_name }} {{ user.last_name }}</p>
                         <p>รอบประเมินที่ : {{ user.round_sys }} ปี {{ user.year_sys }}</p>
@@ -17,9 +17,7 @@
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">รายละเอียด</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">น้ำหนักคะแนน</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">คะแนนเต็ม</th>
-                                    <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">ประธาน</th>
-                                    <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">กรรมการ</th>
-                                    <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">เลขา</th>
+                                    <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">ไฟล์</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">คะแนนที่ได้</th>
                                 </tr>
                                 <tr v-for="indicate in topic.indicates" :key="indicate.id_indicate">
@@ -27,23 +25,12 @@
                                     <td class="pa-2 border text-center">{{ indicate.detail_indicate }}</td>
                                     <td class="pa-2 border text-center">{{ indicate.point_indicate }}</td>
                                     <td class="pa-2 border text-center">{{ indicate.point_indicate*4 }}</td>
-                                    <td class="pa-2 border text-center">{{ scores[indicate.id_indicate]?.a ?? 'รอประธานประเมิน' }}</td>
-                                    <td class="pa-2 border text-center">{{ scores[indicate.id_indicate]?.b ?? 'รอกรรมการประเมิน' }}</td>
-                                    <td class="pa-2 border text-center">{{ scores[indicate.id_indicate]?.c ?? 'รอเลขาประเมิน' }}</td>
-                                    <td class="pa-2 border text-center">
-                                        {{ ((scores[indicate.id_indicate]?.a ?? 0)+(scores[indicate.id_indicate]?.b ?? 0)+(scores[indicate.id_indicate]?.c ?? 0)) }}
-                                    </td>
+                                    <td class="pa-2 border text-center"><v-btn v-if="indicate.file_eva" @click="viweFile(indicate.file_eva)" color="blue">ดูไฟล์</v-btn><span v-else>-</span></td>
+                                    <td class="pa-2 border text-center">{{ indicate.score_member*indicate.point_indicate }}</td>
                                 </tr>
                             </v-table>
                         </v-col>
                     </v-row>
-                    <v-card class="mt-2 pa-2 text-end" color="success">คะแนนรวมสุทธิ : {{ totalScore }} คะแนน&nbsp;&nbsp;</v-card>
-                    <v-card class="mt-4 pa-2">
-                        <label for="">ข้อเสนอแนะ</label>
-                        <v-row>
-                            <v-col cols="12" ><p class="mt-2" v-for="commit in commits" :key="commit.id_commit">{{ commit.level_commit }} : {{ commit.detail_commit || 'รอการประเมิน' }}</p></v-col>
-                        </v-row>
-                    </v-card>
                 </v-form>
                 <v-alert v-else-if="user.status_eva === 1" type="info">คุณยังไม่ได้กรอกแบบประเมิน</v-alert>
                 <v-alert v-else type="warning">ยังไม่มีแบบประเมิน</v-alert>
@@ -54,18 +41,20 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import {eva} from '../API/api'
+import {commit} from '../API/api'
 
 const user = ref({})
 const topics = ref([])
-const scores = ref([])
-const totalScore = ref(0)
-const commits = ref([])
+const id_eva = useRoute().params.id_eva
 const token = process.client ? localStorage.getItem('token') : null
 
+const viweFile = (filename:string) =>{
+    const url = `http://localhost:3001/uploads/evadetail/${filename}`
+    window.open(url,'__blank')
+}
 const fetchUser = async () =>{
     try{
-        const res = await axios.get(`${eva}/score_commit/user`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${commit}/detail_eva/user/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         user.value = res.data
     }catch(err){
         console.error('Error GET User',err)
@@ -74,32 +63,15 @@ const fetchUser = async () =>{
 
 const fetchTopic = async () =>{
     try{
-        const res = await axios.get(`${eva}/score_commit/indicate`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${commit}/detail_eva/indicate/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         topics.value = res.data
     }catch(err){
         console.error('Error GET Indi9cate',err)
     }
 }
-const fetchCommit = async () =>{
-    try{
-        const res = await axios.get(`${eva}/score_commit/commit`,{headers:{Authorization:`Bearer ${token}`}})
-        commits.value = res.data
-    }catch(err){
-        console.error('Error GET Commit',err)
-    }
-}
-
-const fetchScore = async () =>{
-    try{
-        const res = await axios.get(`${eva}/score_commit/scores`,{headers:{Authorization:`Bearer ${token}`}})
-        scores.value = res.data
-    }catch(err){
-        console.error('Error GET Score',err)
-    }
-}
 
 onMounted(async () =>{
-    await Promise.all([fetchTopic(),fetchUser(),fetchCommit(),fetchScore()])
+    await Promise.all([fetchTopic(),fetchUser()])
 })
 
 </script>
