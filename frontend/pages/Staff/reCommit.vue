@@ -2,7 +2,7 @@
     <v-container fluid class="py-10">
                 <v-card>
                     <v-sheet class="pa-4" color="">
-                        <h1 class="text-center text-h5 font-weight-bold">กรรมการประเมินทั้งหมด {{ result.length }} คน</h1>
+                        <h1 class="text-center text-h5 font-weight-bold">รายงานกรรมการประเมินทั้งหมด <br>จำนวนยอด {{ result.length }} คน</h1>
                     </v-sheet>
                     <v-card-text>
                         รายชื่อกรรมการประเมิน
