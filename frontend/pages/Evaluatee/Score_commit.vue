@@ -38,6 +38,11 @@
                         </v-col>
                     </v-row>
                     <v-card class="mt-2 pa-2 text-end" color="success">คะแนนรวมสุทธิ : {{ totalScore }} คะแนน&nbsp;&nbsp;</v-card>
+                    <v-card class="mt-4 pa-2">
+                        <v-row>
+                            <v-col cols="12" v-for="commit in commits" :key="commit.id_commit"></v-col>
+                        </v-row>
+                    </v-card>
                 </v-form>
                 <v-alert v-else-if="user.status_eva === 1" type="info">คุณยังไม่ได้กรอกแบบประเมิน</v-alert>
                 <v-alert v-else type="warning">ยังไม่มีแบบประเมิน</v-alert>
@@ -54,6 +59,7 @@ const user = ref({})
 const topics = ref([])
 const scores = ref([])
 const totalScore = ref(0)
+const commits = ref([])
 const token = process.client ? localStorage.getItem('token') : null
 
 const viweFile = (filename:string) =>{

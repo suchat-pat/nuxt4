@@ -55,11 +55,7 @@ router.post('/save',verifyToken,requireRole('ผู้รับการปร�
             const filename = fileMap[item.file_key]
             await db.query(
                 `insert into tb_evadetail (id_eva,id_indicate,status_eva,score_member,detail_eva,file_eva) values(?,?,?,?,?,?)`,
-<<<<<<< HEAD
                 [id_eva,item.id_indicate,1,item.score,item.detail_eva,filename],
-=======
-                [id_eva,item.id_indicate,1,item.score,item.detail_eva],
->>>>>>> 8089200534f17c35e9d19f04135ddde24f6eafb1
             )
         }
         const [[sumRow]] = await db.query(

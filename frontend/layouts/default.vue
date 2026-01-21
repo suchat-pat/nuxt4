@@ -7,7 +7,7 @@
             <v-btn @click="logout" class="bg-white">ออกจากระบบ</v-btn>&nbsp;&nbsp;
         </v-app-bar>
         <ClientOnly>
-<<<<<<< HEAD
+
         <v-navigation-drawer color="#404040" v-model="drawer" app :temporary="isMobile" :permanent="!isMobile">
             <v-list>
                 <v-list-item v-for="item in navitem" :key="item.title" :to="item.to">
@@ -17,7 +17,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-=======
+
             <v-navigation-drawer color="#404040" v-model="drawer" app :temporary="isMobile" :permanent="!isMobile">
                 <v-list>
                     <v-list-item v-for="item in navitem" :key="item.title" :to="item.to">
@@ -27,7 +27,7 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
->>>>>>> 8089200534f17c35e9d19f04135ddde24f6eafb1
+
         </ClientOnly>
         <v-main>
             <v-container fluid>
