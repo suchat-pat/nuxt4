@@ -2,30 +2,11 @@
     <v-container fluid class="py-10">
                 <v-card>
                     <v-sheet class="pa-4" color="">
-                        <h1 class="text-center text-h5 font-weight-bold">Dashboard - Staff</h1>
+                        <h1 class="text-center text-h5 font-weight-bold">ผู้รับการประเมินทั้งหมด {{ result.length }} คน</h1>
                     </v-sheet>
                     <v-card-text>
-                       <v-row>
-                        <v-col cols="12" md="4" v-for="b in box" :key="b">
-                            <v-card elevation="5" class="pa-4">
-                                <div class="font-weight-bold">{{ b.label }}</div>
-                                <div class="text-h3 font-weight-bold">{{ b.value }}</div>
-                            </v-card>
-                        </v-col>
-                       </v-row>
-                       <v-row>
-                        <v-col cols="12" md="6" v-for="b in box2" :key="b">
-                            <v-card elevation="5" class="pa-4">
-                                <div class="font-weight-bold">{{ b.label }}</div>
-                                <div class="text-h3 font-weight-bold">{{ b.value }}</div>
-                            </v-card>
-                        </v-col>
-                       </v-row>
-                       <br><BR></BR>
-                       <hr>
-                       <br>
-                        <center><p class="text-h6">สมาชิกทั้งหมด</p></center> 
-                            <v-table>
+                        รายชื่อผู้รับการประเมินผล
+                        <v-table>
                             <thead>
                                 <tr>
                                     <th class="text-center border">ลำดับ</th>
@@ -33,6 +14,7 @@
                                     <th class="text-center border">อีเมล</th>
                                     <th class="text-center border">ชื่อผู้ใช้งาน</th>
                                     <th class="text-center border">ประเภทสมาชิก</th>
+                                    <!-- <th class="text-center border">จัดการ</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,12 +24,18 @@
                                     <td class="text-center border">{{ items.email }}</td>
                                     <td class="text-center border">{{ items.username }}</td>
                                     <td class="text-center border">{{ items.role }}</td>
+                                    <!-- <td class="text-center border">
+                                        <v-btn class="text-white" color="warning" size="small" @click="edit(items)">แก้ไข</v-btn>&nbsp;
+                                        <v-btn class="text-white" color="error" size="small" @click="del(items.id_member)">ลบ</v-btn>
+                                    </td> -->
                                 </tr>
                                 <tr v-if="result.length===0">
                                     <td class="text-center border" colspan="10">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>
+                        <br>
+                        <center><v-btn color="warning" prepend-icon="mdi-printer" class="noP" @click="print()">พิมพ์</v-btn></center>
                     </v-card-text>
                 </v-card>
     </v-container>
@@ -56,22 +44,18 @@
 <script setup lang="ts">
 import axios from 'axios'
 import {api,staff} from '../API/api'
-import { createNativeLocaleFormatter } from 'vuetify/lib/components/VCalendar/util/timestamp.mjs'
 const token = process.client ? localStorage.getItem('token') : null
 
 const result = ref([]) 
 
-const box = ref([])
-const box2 = ref([])
-
+const print = () => {
+    window.print()
+}
 
 const fetch = async () => {
     try{
-        const res = await axios.get(`${api}/dash/staff`,{headers: {Authorization: `Bearer ${token}`}})
-        box.value = res.data.box
-        box2.value = res.data.box2
-        const m = await axios.get(`${staff}/member/all`,{headers:{Authorization:`Bearer ${token}`}})
-        result.value = m.data
+        const res = await axios.get(`${staff}/member/eva`,{headers: {Authorization: `Bearer ${token}`}})
+        result.value = res.data
     }catch(err){
         console.error('Error Fetching',err)
     }
@@ -83,5 +67,11 @@ onMounted(fetch)
 <style scoped>
 .text-maroon{
     color: #7d0c14;
+}
+
+@media print {
+    .v-btn,.noP{
+        display: none;
+    }
 }
 </style>

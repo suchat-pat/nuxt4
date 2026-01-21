@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar color="#7d0c14" class="py-2">
+        <v-app-bar color="#7d0c14" class="py-2 noP">
             <v-app-bar-nav-icon @click="drawer = !drawer" variant="text"></v-app-bar-nav-icon>
             <v-toolbar-title>ระบบประเมินบุคลากรวิทยาลัยเทคนิคน่าน</v-toolbar-title>
             <p>ผู้ใช้งาน : {{ user.first_name }} {{ user.last_name }} <br> {{ user.role }}</p>&nbsp;&nbsp;
@@ -56,6 +56,7 @@ const roles = [
     {title:'สถานะการประเมินของผู้รับการประเมิน',to:'/Staff/StatusEva',role:'ฝ่ายบุคลากร'},
     {title:'สถานะการประเมินของกรรมการประเมิน',to:'/Staff/StatusCommit',role:'ฝ่ายบุคลากร'},
     {title:'คู่มือการประเมิน',to:'/Staff/Document',role:'ฝ่ายบุคลากร'},
+    {title:'รายงานผล',to:'/Staff/Report',role:'ฝ่ายบุคลากร'},
 
     //commit
     {title:'รายชื่อผู้รับการประเมิน',to:'/Committee/',role:'กรรมการประเมิน'},
@@ -89,5 +90,9 @@ onMounted(fetchUser)
 </script>
 
 <style scoped>
-
+@media print {
+    .v-btn,.noP{
+        display: none;
+    }
+}
 </style>
