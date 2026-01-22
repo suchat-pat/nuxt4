@@ -17,7 +17,6 @@
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">รายละเอียด</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">น้ำหนักคะแนน</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">คะแนนเต็ม</th>
-                                    <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">ไฟล์</th>
                                     <th class="pa-2 border text-center bg-grey text-black" style="width: 10%;">คะแนนที่ได้</th>
                                 </tr>
                                 <tr v-for="indicate in topic.indicates" :key="indicate.id_indicate">
@@ -25,8 +24,7 @@
                                     <td class="pa-2 border text-center">{{ indicate.detail_indicate }}</td>
                                     <td class="pa-2 border text-center">{{ indicate.point_indicate }}</td>
                                     <td class="pa-2 border text-center">{{ indicate.point_indicate*4 }}</td>
-                                    <td class="pa-2 border text-center"><v-btn v-if="indicate.file_eva" @click="viweFile(indicate.file_eva)" color="blue">ดูไฟล์</v-btn><span v-else>-</span></td>
-                                    <td class="pa-2 border text-center">{{ indicate.score_member*indicate.point_indicate }}</td>
+                                    <td class="pa-2 border text-center">{{ indicate.score_commit*indicate.point_indicate }}</td>
                                 </tr>
                             </v-table>
                         </v-col>
@@ -56,7 +54,7 @@ const viweFile = (filename:string) =>{
 }
 const fetchUser = async () =>{
     try{
-        const res = await axios.get(`${commit}/detail_eva/user/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${commit}/detail_commit/user/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         user.value = res.data
     }catch(err){
         console.error('Error GET User',err)
@@ -65,9 +63,9 @@ const fetchUser = async () =>{
 
 const fetchTopic = async () =>{
     try{
-        const res = await axios.get(`${commit}/detail_eva/indicate/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${commit}/detail_commit/indicate/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         topics.value = res.data
-        res.data.forEach(score => score.indicates.forEach((i) => totalScore.value += (i.score_member*i.point_indicate)))
+        res.data.forEach(score => score.indicates.forEach((i) => totalScore.value += (i.score_commit*i.point_indicate)))
     }catch(err){
         console.error('Error GET Indi9cate',err)
     }

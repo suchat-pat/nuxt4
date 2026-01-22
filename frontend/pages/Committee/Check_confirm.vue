@@ -2,7 +2,7 @@
     <v-container fluid class="py-10">
                 <v-card>
                     <v-sheet class="pa-4" color="">
-                        <h1 class="text-h5 font-weight-bold">รายชื่อผู้ประเมิน</h1>
+                        <h1 class="text-h5 font-weight-bold">ตรวจสอบและยืนยันผล</h1>
                     </v-sheet>
                     <v-card-text>
                         <v-table>
@@ -12,8 +12,8 @@
                                     <th class="text-center border">ชื่อ</th>
                                     <th class="text-center border">นามสกุล</th>
                                     <th class="text-center border">วันที่ออกแบบประเมิน</th>
-                                    <!-- <th class="text-center border">รอบการประเมิน</th>
-                                    <th class="text-center border">สถานะการประเมิน</th> -->
+                                    <th class="text-center border">รอบการประเมิน</th>
+                                    <th class="text-center border">ตรวจสอบคะแนน</th>
                                     <th class="text-center border">ตรวจสอบคะแนน</th>
                                 </tr>
                             </thead>
@@ -23,10 +23,11 @@
                                     <td class="text-center border">{{ items.first_name }}</td>
                                     <td class="text-center border">{{ items.last_name }}</td>
                                     <td class="text-center border">{{ items.day_eva }}</td>
-                                    <!-- <td class="text-center border">รอบการประเมินที่ {{ items.round_sys }} ปี {{ items.year_sys }}</td>
-                                    <td class="text-center border">{{ items.status_eva === 1 ? 'ประเมินตนเอง' : items.status_eva === 2 ? 'กรรมการประเมิน' : 'ประเมินเสร็จสิ้น' }}</td> -->
+                                    <td class="text-center border">รอบการประเมินที่ {{ items.round_sys }} ปี {{ items.year_sys }}</td>
+                                    <td class="text-center border"><v-btn class="text-white" color="blue" size="small" @click="check(items.id_eva)">ตรวจสอบ</v-btn></td>
                                     <td class="text-center border">
-                                        <v-btn class="text-white" color="blue" size="small" @click="go(items.id_eva)">ตรวจสอบ</v-btn>
+                                        <v-btn v-if="items.signature" class="text-white" color="success" size="small" @click="go(items.id_eva)">ยืนยันผลแล้ว</v-btn>
+                                        <v-btn v-else class="text-white" color="blue" size="small" @click="go(items.id_eva)">ยืนยันผล</v-btn>
                                     </td>
                                 </tr>
                                 <tr v-if="result.length===0">
@@ -56,7 +57,11 @@ const fetch = async () => {
 }
 
 const go = (id_eva:number) => {
-    navigateTo({path:`/Committee/Detail_eva${id_eva}`})
+    navigateTo({path:`/Committee/Signature${id_eva}`})
+}
+
+const check = (id_eva:number) => {
+    navigateTo({path:`/Committee/Detail_commit${id_eva}`})
 }
 
 onMounted(fetch)

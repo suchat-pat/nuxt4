@@ -68,5 +68,14 @@ app.use('/api/Commit/showeva',showeva)
 const detail_eva = require('./routes/Commit/detail_eva')
 app.use('/api/Commit/detail_eva',detail_eva)
 
+const save_score = require('./routes/Commit/save_score')
+app.use('/api/Commit/save_score',save_score)
+
+const detail_commit = require('./routes/Commit/detail_commit')
+app.use('/api/Commit/detail_commit',detail_commit)
+
+const signature = require('./routes/Commit/signature')
+app.use('/api/Commit/signature',signature)
+
 app.use( (req,res) => res.status(404).json({ message:'ระบบปิดปรับปรุง!' }) )
 app.listen(3001 , () => console.log('Server Running On Port 3001'))

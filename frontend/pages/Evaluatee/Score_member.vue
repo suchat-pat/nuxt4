@@ -31,6 +31,7 @@
                             </v-table>
                         </v-col>
                     </v-row>
+                    <v-card class="mt-2 pa-2 text-end" color="success">คะแนนรวม : {{ totalScore }} คะแนน&nbsp;&nbsp;</v-card>
                 </v-form>
                 <v-alert v-else-if="user.status_eva === 1" type="info">คุณยังไม่ได้กรอกแบบประเมิน</v-alert>
                 <v-alert v-else type="warning">ยังไม่มีแบบประเมิน</v-alert>
@@ -45,6 +46,7 @@ import {eva} from '../API/api'
 
 const user = ref({})
 const topics = ref([])
+const totalScore = ref(0)
 const token = process.client ? localStorage.getItem('token') : null
 
 const viweFile = (filename:string) =>{
@@ -64,6 +66,7 @@ const fetchTopic = async () =>{
     try{
         const res = await axios.get(`${eva}/score_member/indicate`,{headers:{Authorization:`Bearer ${token}`}})
         topics.value = res.data
+        res.data.forEach(score => score.indicates.forEach((i) => totalScore.value += (i.score_member*i.point_indicate)))
     }catch(err){
         console.error('Error GET Indi9cate',err)
     }
